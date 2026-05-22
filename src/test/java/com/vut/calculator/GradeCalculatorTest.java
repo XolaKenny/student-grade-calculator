@@ -131,14 +131,11 @@ public class GradeCalculatorTest {
         assertFalse(calculator.hasExamAdmission(39));
     }
 
-    // TODO: Write a test for a student with semester mark of 42
-    // (between the buggy threshold of 45 and correct threshold of 40)
-    @Test
-    public void testExamAdmission_Between40And45() {
-        // A semester mark of 42 is >= 40, so the student SHOULD be admitted.
-        // BUG #3 uses >= 45, so this returns false incorrectly.
-        assertTrue("Semester mark of 42 should qualify for exam admission", calculator.hasExamAdmission(42));
-    }
+    // TODO 1: Semester mark of 42 should be admitted (threshold is 40, not 45)
+@Test
+public void testExamAdmission_Between40And45() {
+    assertTrue(calculator.hasExamAdmission(42));
+}
 
     // =====================================================================
     // TEST GROUP 4: Class Average Calculation
@@ -163,15 +160,12 @@ public class GradeCalculatorTest {
         assertEquals(0.0, calculator.calculateClassAverage(marks), 0.01);
     }
 
-    // TODO: Write a test for class average with 5 students
-    @Test
-    public void testClassAverage_FiveStudents() {
-        // Marks: 45, 55, 65, 75, 85
-        // Expected average: (45+55+65+75+85)/5 = 325/5 = 65.0
-        // BUG #4 divides by (length+1)=6, producing 54.17 instead.
-        double[] marks = {45, 55, 65, 75, 85};
-        assertEquals(65.0, calculator.calculateClassAverage(marks), 0.01);
-    }
+    // TODO 2: Average of 45,55,65,75,85 should be 65.0
+@Test
+public void testClassAverage_FiveStudents() {
+    double[] marks = {45, 55, 65, 75, 85};
+    assertEquals(65.0, calculator.calculateClassAverage(marks), 0.01);
+}
 
     // =====================================================================
     // TEST GROUP 5: Pass Rate Calculation
@@ -193,14 +187,12 @@ public class GradeCalculatorTest {
         assertEquals(0.6, calculator.calculatePassRate(marks), 0.01);
     }
 
-    // TODO: Write a test for pass rate where no students pass
+    // TODO 3: No students pass (all below 50)
     @Test
-    public void testPassRate_NonePass() {
-        // All marks below 50 — pass rate should be 0.0
-        // BUG #5 uses >= 55 as threshold, so marks of 50-54 are wrongly excluded too.
-        double[] marks = {10, 20, 30, 40, 49};
-        assertEquals(0.0, calculator.calculatePassRate(marks), 0.01);
-    }
+public void testPassRate_NonePass() {
+    double[] marks = {20, 30, 40, 49};
+    assertEquals(0.0, calculator.calculatePassRate(marks), 0.01);
+}
 
     // =====================================================================
     // TEST GROUP 6: Highest Mark Finder
@@ -218,14 +210,12 @@ public class GradeCalculatorTest {
         assertEquals(70.0, calculator.findHighestMark(marks), 0.01);
     }
 
-    // TODO: Write a test where highest mark is at the beginning of the array
+    // TODO 4: Highest mark is the first element
     @Test
-    public void testHighestMark_FirstElement() {
-        // Highest mark is the first element — BUG #6 uses < instead of >,
-        // so it finds the LOWEST mark (45) instead of the highest (95).
-        double[] marks = {95, 60, 72, 45, 83};
-        assertEquals(95.0, calculator.findHighestMark(marks), 0.01);
-    }
+public void testHighestMark_FirstElement() {
+    double[] marks = {95, 60, 70, 45};
+    assertEquals(95.0, calculator.findHighestMark(marks), 0.01);
+}
 
     // =====================================================================
     // TEST GROUP 7: Supplementary Exam Eligibility
@@ -287,11 +277,9 @@ public class GradeCalculatorTest {
         assertFalse(calculator.isValidMark(101));
     }
 
-    // TODO: Write a test for mark value of 105 (should be invalid)
+    // TODO 5: 105 should be invalid
     @Test
-    public void testValidMark_WayOver100() {
-        // 105 is outside the valid range of 0-100.
-        // BUG #8 uses -10 to 110 as the valid range, so 105 wrongly returns true.
-        assertFalse("105 is not a valid mark", calculator.isValidMark(105));
-    }
+public void testValidMark_WayOver100() {
+    assertFalse(calculator.isValidMark(105));
+}
 }
